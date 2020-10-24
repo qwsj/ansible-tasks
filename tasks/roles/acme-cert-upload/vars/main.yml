@@ -1,0 +1,5 @@
+# roles/acme-cert-upload/vars/main.yml
+
+---
+work_directory: "/etc/letsencrypt/acme"
+remote_directory: "/etc/letsencrypt"

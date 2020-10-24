@@ -1,0 +1,25 @@
+# roles/aws-ec2-stop/taska/main.yml
+
+---
+- name: aws-ec2-stop - search ec2 instance
+  ec2_remote_facts:
+    filters:
+      'tag:Name': '{{ hostname }}'
+    aws_access_key: '{{ aws_access_key }}'
+    aws_secret_key: '{{ aws_secret_key }}'
+    region: '{{ aws_region }}'
+  register: ec2instance
+  tags:
+    - aws-ec2-stop
+
+
+- name: aws-ec2-stop - stop ec2 instance
+  ec2:
+    instance_ids: '{{ ec2instance.instances[0].id }}'
+    region: '{{ ec2instance.instances[0].region }}'
+    aws_access_key: '{{ aws_access_key }}'
+    aws_secret_key: '{{ aws_secret_key }}'
+    state: stopped
+    wait: True
+  tags:
+    - aws-ec2-stop

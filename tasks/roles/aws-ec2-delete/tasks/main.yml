@@ -1,0 +1,43 @@
+# roles/aws-ec2-delete/tasks/main.yml
+
+---
+- name: aws-ec2-delete - search ec2 instance
+  ec2_remote_facts:
+    filters:
+      'tag:Name': '{{ hostname }}'
+    aws_access_key: '{{ aws_access_key }}'
+    aws_secret_key: '{{ aws_secret_key }}'
+    region: '{{ aws_region }}'
+  register: ec2instance
+  tags:
+    - aws-ec2-delete
+
+
+- name: aws-ec2-delete - disable terminate protection for ec2 instance
+  ec2:
+    instance_ids: '{{ ec2instance.instances[0].id }}'
+    region: '{{ ec2instance.instances[0].region }}'
+    aws_access_key: '{{ aws_access_key }}'
+    aws_secret_key: '{{ aws_secret_key }}'
+    termination_protection: no
+    wait: True
+  tags:
+    - aws-ec2-delete
+
+
+- name: aws-ec2-delete - terminate ec2 instance
+  ec2:
+    instance_ids: '{{ ec2instance.instances[0].id }}'
+    region: '{{ ec2instance.instances[0].region }}'
+    aws_access_key: '{{ aws_access_key }}'
+    aws_secret_key: '{{ aws_secret_key }}'
+    state: absent
+    wait: True
+  tags:
+    - aws-ec2-delete
+
+
+- name: aws-ec2-delete - display ec2 instance information
+  debug: var=ec2instance
+  tags:
+    - aws-ec2-delete

@@ -1,0 +1,133 @@
+# roles/acme-cert-create/tasks/main.yml
+
+---
+- block:
+  - name: acme-cert-create - test whether old certificate files for domains {{ domain }} exist
+    stat:
+      path: "{{ work_directory }}/{{ domain }}"
+    register: old_certificate_exists
+    run_once: yes
+    delegate_to: localhost
+    tags:
+      - acme-cert-create
+
+  - name: acme-cert-create - move old certificate files for domains {{ domain }}
+    command: mv "{{ work_directory }}/{{ domain }}" "{{ work_directory }}/{{ domain }}-{{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}"
+    when: "old_certificate_exists.stat.exists"
+    run_once: yes
+    delegate_to: localhost
+    tags:
+      - acme-cert-create
+
+
+- name: acme-cert-create - creating domain certs directory for {{ domain }}
+  file:
+    dest: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ challenge_directory }}/.well-known/acme-challenge"
+    - "{{ work_directory }}/{{ domain }}"
+    - "{{ work_directory }}/accounts"
+    - "{{ csr_directory }}"
+  run_once: yes
+  delegate_to: localhost
+  tags:
+    - acme-cert-create
+
+
+- name: acme-cert-create - creating private key for {{ domain }} (RSA)
+  openssl_privatekey:
+    path: "{{ work_directory }}/{{ domain }}/privkey.pem"
+    mode: "0600"
+    type: RSA
+    size: 4096
+    force: "yes"
+  run_once: yes
+  delegate_to: localhost
+  tags:
+    - acme-cert-create
+
+
+- name: acme-cert-create - creating CSR for {{ domain }}
+  openssl_csr:
+    path: "{{ csr_directory }}/csr-{{ domain }}.csr"
+    privatekey_path: "{{ work_directory }}/{{ domain }}/privkey.pem"
+    common_name: "{{ domain }}"
+    ocsp_must_staple: "no"
+    use_common_name_for_san: "no"
+    force: "yes"
+  run_once: yes
+  delegate_to: localhost
+  tags:
+    - acme-cert-create
+
+
+- name: acme-cert-create - generate account key (RSA)
+  openssl_privatekey:
+    path: "{{ account_key }}"
+    type: RSA
+    size: 4096
+  run_once: yes
+  delegate_to: localhost
+  tags:
+    - acme-cert-create
+
+
+- name: acme-cert-create - create challenge for {{ domain }}
+  acme_certificate:
+    account_key: "{{ account_key }}"
+    account_email: "{{ account_email }}"
+    terms_agreed: "yes"
+    challenge: http-01
+    acme_directory: "{{ acme_directory }}"
+    acme_version: "{{ acme_version }}"
+    csr: "{{ csr_directory }}/csr-{{ domain }}.csr"
+    dest: "{{ work_directory }}/{{ domain }}/cert.pem"
+    fullchain_dest: "{{ work_directory }}/{{ domain }}/fullchain.pem"
+    chain_dest: "{{ work_directory }}/{{ domain }}/chain.pem"
+    remaining_days: "{{ remaining_days }}"
+  register: create_challenge
+  run_once: yes
+  delegate_to: localhost
+  tags:
+    - acme-cert-create
+
+
+- block:
+  when: create_challenge is changed
+  - name: acme-cert-create - copy file to webroot for challenge verify
+    copy:
+      content: "{{ create_challenge.challenge_data[domain]['http-01']['resource_value'] }}"
+      dest: "{{ challenge_directory }}/.well-known/acme-challenge/{{ create_challenge.challenge_data[domain]['http-01']['resource'] | basename }}"
+    run_once: yes
+    delegate_to: localhost
+    tags:
+      - acme-cert-create
+
+  - name: acme-cert-create - let the challenge be validated and retrieve the cert for {{ domain }}
+    acme_certificate:
+      account_key: "{{ account_key }}"
+      account_email: "{{ account_email }}"
+      acme_directory: "{{ acme_directory }}"
+      acme_version: "{{ acme_version }}"
+      src: "{{ csr_directory }}/csr-{{ domain }}.csr"
+      cert: "{{ work_directory }}/{{ domain }}/cert.pem"
+      fullchain: "{{ work_directory }}/{{ domain }}/fullchain.pem"
+      chain: "{{ work_directory }}/{{ domain }}/chain.pem"
+      data: "{{ create_challenge }}"
+      challenge: http-01
+    run_once: true
+    delegate_to: localhost
+    register: verify_challenge
+    tags:
+      - acme-cert-create
+
+
+- name: acme-cert-create - cleaning up challenge files for {{ domain }}
+  file:
+    state: absent
+    path: "{{ challenge_directory }}/.well-known/acme-challenge/{{ create_challenge.challenge_data[domain]['http-01']['resource'] | basename }}"
+  run_once: true
+  delegate_to: localhost
+  tags:
+    - acme-cert-create

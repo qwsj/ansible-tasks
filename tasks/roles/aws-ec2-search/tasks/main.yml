@@ -1,0 +1,19 @@
+# roles/aws-ec2-search/taska/main.yml
+
+---
+- name: aws-ec2-search - search ec2 instance
+  ec2_remote_facts:
+    filters:
+      'tag:Name': '{{ hostname }}'
+    aws_access_key: '{{ aws_access_key }}'
+    aws_secret_key: '{{ aws_secret_key }}'
+    region: '{{ aws_region }}'
+  register: ec2instance
+  tags:
+    - aws-ec2-search
+
+
+- name: aws-ec2-search - display ec2 instance information
+  debug: var=ec2instance
+  tags:
+    - aws-ec2-search

@@ -1,0 +1,22 @@
+# roles/aws-ec2-keypair-create/tasks/main.yml
+
+---
+- name: aws-ec2-keypair-create - create key pair  
+  ec2_key:
+    aws_access_key: '{{ aws_access_key }}'
+    aws_secret_key: '{{ aws_secret_key }}'
+    region: '{{ aws_region }}'
+    name: '{{ ec2_keypair_name }}'
+  register: keypair
+  tags:
+    - aws-ec2-keypair-create
+
+
+- name: aws-ec2-keypair-create - write private key to file
+  copy:
+    content: '{{ keypair.key.private_key }}'
+    dest: '~/.ssh/{{ ec2_keypair_name }}.pem'
+    mode: 0600
+  when: keypair.changed
+  tags:
+    - aws-ec2-keypair-create

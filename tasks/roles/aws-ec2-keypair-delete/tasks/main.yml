@@ -1,0 +1,12 @@
+# roles/aws-ec2-keypair-delete/tasks/main.yml
+
+---
+- name: aws-ec2-keypair-delete - remove key pair by name
+  ec2_key:
+    aws_access_key: '{{ aws_access_key }}'
+    aws_secret_key: '{{ aws_secret_key }}'
+    region: '{{ aws_region }}'
+    name: '{{ ec2_keypair_name }}'
+    state: absent
+  tags:
+    - aws-ec2-keypair-delete
