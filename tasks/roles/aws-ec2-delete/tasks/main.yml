@@ -4,7 +4,7 @@
 - name: aws-ec2-delete - search ec2 instance
   ec2_remote_facts:
     filters:
-      'tag:Name': '{{ hostname }}'
+      'tag:{{ tag_key }}': '{{ tag_value }}'
     aws_access_key: '{{ aws_access_key }}'
     aws_secret_key: '{{ aws_secret_key }}'
     region: '{{ aws_region }}'
@@ -38,6 +38,7 @@
 
 
 - name: aws-ec2-delete - display ec2 instance information
-  debug: var=ec2instance
+  debug:
+    var: ec2instance
   tags:
     - aws-ec2-delete

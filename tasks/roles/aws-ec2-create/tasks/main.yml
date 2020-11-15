@@ -27,6 +27,7 @@
 
 
 - name: aws-ec2-create - display ec2 instance information
-  debug: var=ec2instance
+  debug:
+    var: ec2instance
   tags:
     - aws-ec2-create

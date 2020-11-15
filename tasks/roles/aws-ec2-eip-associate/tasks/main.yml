@@ -15,6 +15,7 @@
 
 
 - name: aws-ec2-eip-associate - display ec2 eip information
-  debug: var=ec2eip
+  debug:
+    var: ec2eip
   tags:
     - aws-ec2-eip-associate
