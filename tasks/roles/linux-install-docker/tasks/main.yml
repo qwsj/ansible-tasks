@@ -1,0 +1,48 @@
+# roles/linux-install-docker/tasks/main.yml
+
+---
+- name: linux-install-docker - gather facts
+  setup:
+    gather_subset:
+      - '!all'
+  tags:
+    - linux-install-docker
+
+
+- name: linux-install-docker - enable IP forwarding in sysctl
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS'
+  tags:
+    - linux-install-docker
+
+
+- name: linux-install-docker - including tasks for OS
+  include_tasks: '{{ ansible_distribution|lower }}.yml'
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS'
+  tags:
+    - linux-install-docker
+
+
+- name: linux-install-docker - download docker-compose binary
+  get_url:
+    url: '{{ docker_compose_binary }}'
+    dest: '/usr/local/bin/docker-compose'
+    mode: 0755
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS'
+  tags:
+    - linux-install-docker
+
+
+- name: linux-install-docker - create symlink for docker-compose
+  file:
+    src: '/usr/local/bin/docker-compose'
+    dest: '/usr/bin/docker-compose'
+    state: link
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS'
+  tags:
+    - linux-install-docker
