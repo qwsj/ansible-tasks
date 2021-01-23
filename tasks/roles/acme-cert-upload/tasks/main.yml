@@ -1,0 +1,9 @@
+# roles/acme-cert-upload/tasks/main.yml
+
+---
+- name: acme-cert-upload - upload domain certs directory for {{ domain }}
+  copy:
+    src: "{{ work_directory }}/{{ domain }}"
+    dest: "{{ remote_directory }}/{{ domain }}"
+  tags:
+    - acme-cert-upload
