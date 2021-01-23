@@ -12,5 +12,6 @@
 - name: linux-install-nginx - including tasks for OS
   include_tasks: '{{ ansible_distribution|lower }}.yml'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS'
+  notify: 'linux-install-nginx - restarted and enabled nginx'
   tags:
     - linux-install-nginx

@@ -1,3 +1,10 @@
 # linux-install-nginx/handlers/main.yml
 
 ---
+- name: linux-install-nginx - restarted and enabled nginx
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+  tags:
+    - linux-install-nginx

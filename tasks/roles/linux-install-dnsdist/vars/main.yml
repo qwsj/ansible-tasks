@@ -1,0 +1,9 @@
+# linux-install-dnsdist/vars/main.yml
+
+dnsdist_version: '15'
+
+dnsdist_repository_gpg_key_debian_ubuntu: 'https://repo.powerdns.com/FD380FBB-pub.asc'
+dnsdist_apt_repository_debian: 'deb [arch=amd64] http://repo.powerdns.com/debian {{ ansible_distribution_release }}-dnsdist-{{ dnsdist_version }} main'
+dnsdist_apt_repository_ubuntu: 'deb [arch=amd64] http://repo.powerdns.com/ubuntu {{ ansible_distribution_release }}-dnsdist-{{ dnsdist_version }} main'
+
+dnsdist_yum_repository_centos: 'https://repo.powerdns.com/repo-files/centos-dnsdist-{{ dnsdist_version }}.repo'

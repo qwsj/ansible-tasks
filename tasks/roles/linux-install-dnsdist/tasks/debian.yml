@@ -1,0 +1,42 @@
+# linux-install-dnsdist/tasks/debian.yml
+
+---
+- name: linux-install-dnsdist - debian - add apt repository
+  apt_repository:
+    repo: '{{ dnsdist_apt_repository_debian }}'
+    filename: 'dnsdist'
+    state: present
+    update_cache: no
+  when: ansible_distribution == 'Debian'
+  tags:
+    - linux-install-dnsdist
+
+
+- name: linux-install-dnsdist - debian - copy preferences apt files
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'apt_pdns.preferences', dest: '/etc/apt/preferences.d/dnsdist' }
+  when: ansible_distribution == 'Debian'
+  tags:
+    - linux-install-dnsdist
+
+
+- name: linux-install-dnsdist - debian - add official repository key
+  apt_key:
+    url: '{{ dnsdist_repository_gpg_key_debian_ubuntu }}'
+    state: present
+  when: ansible_distribution == 'Debian'
+  tags:
+    - linux-install-dnsdist
+
+
+- name: linux-install-dnsdist - debian - install dnsdist
+  apt:
+    name: dnsdist
+    state: latest
+    update_cache: yes
+  when: ansible_distribution == 'Debian'
+  tags:
+    - linux-install-dnsdist
