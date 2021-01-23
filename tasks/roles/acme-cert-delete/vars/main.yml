@@ -1,5 +1,0 @@
-# roles/acme-cert-delete/vars/main.yml
-
----
-work_directory: "/etc/letsencrypt/acme"
-csr_directory: "{{ work_directory }}/csr/{{ domain }}"
