@@ -1,0 +1,47 @@
+# linux-install-nginx/tasks/ubuntu.yml
+
+---
+- name: linux-install-nginx - ubuntu - install required packages
+  apt:
+    name:
+      - curl
+      - gnupg2
+      - ca-certificates
+    force_apt_get: yes
+    state: latest
+    update_cache: yes
+  when: ansible_distribution == 'Ubuntu'
+  tags:
+    - linux-install-nginx
+
+
+- name: linux-install-nginx - ubuntu - add official repository GPG key
+  apt_key:
+    id: '{{ nginx_repository_gpg_fingerprint }}'
+    url: '{{ nginx_repository_gpg_key }}'
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+  tags:
+    - linux-install-nginx
+
+
+- name: linux-install-nginx - ubuntu - add apt repository
+  apt_repository:
+    repo: '{{ nginx_apt_repository_ubuntu }}'
+    filename: 'nginx'
+    state: present
+    update_cache: no
+  when: ansible_distribution == 'Ubuntu'
+  tags:
+    - linux-install-nginx
+
+
+- name: linux-install-nginx - ubuntu - install nginx
+  apt:
+    name: 
+      - nginx
+    state: latest
+    update_cache: yes
+  when: ansible_distribution == 'Ubuntu'
+  tags:
+    - linux-install-nginx

@@ -1,0 +1,8 @@
+# linux-install-nginx/vars/main.yml
+
+nginx_repository_gpg_key: 'https://nginx.org/keys/nginx_signing.key'
+nginx_repository_gpg_fingerprint: 'ABF5BD827BD9BF62'
+
+nginx_apt_repository_debian: 'deb http://nginx.org/packages/debian {{ ansible_distribution_release }} nginx'
+
+nginx_apt_repository_ubuntu: 'deb http://nginx.org/packages/ubuntu {{ ansible_distribution_release }} nginx'

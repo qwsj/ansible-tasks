@@ -1,0 +1,32 @@
+# linux-install-nginx/tasks/centos.yml
+
+---
+- name: linux-install-nginx - centos - install required packages
+  yum:
+    name: 
+      - yum-utils
+    state: latest
+    update_cache: yes
+  when: ansible_distribution == 'CentOS'
+  tags:
+    - linux-install-nginx
+
+
+- name: linux-install-nginx - centos - add yum repository
+  template:
+    src: 'nginx.repo.j2'
+    dest: '/etc/yum.repos.d/nginx.repo'
+  when: ansible_distribution == 'CentOS'
+  tags:
+    - linux-install-nginx
+
+
+- name: linux-install-nginx - centos - install nginx
+  yum:
+    name: 
+      - nginx
+    state: latest
+    update_cache: yes
+  when: ansible_distribution == 'CentOS'
+  tags:
+    - linux-install-nginx
