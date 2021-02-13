@@ -1,7 +1,7 @@
 # linux-install-dnsdist/handlers/main.yml
 
 ---
-- name: linux-install-dnsdist - restarted and enabled dnsdist
+- name: restarted and enabled dnsdist
   service:
     name: dnsdist
     state: restarted

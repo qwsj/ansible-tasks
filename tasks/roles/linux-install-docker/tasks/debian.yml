@@ -1,7 +1,7 @@
 # roles/linux-install-docker/tasks/debian.yml
 
 ---
-- name: linux-install-docker - debian - install required packages
+- name: debian - install required packages
   apt:
     name:
       - curl
@@ -12,32 +12,29 @@
     force_apt_get: yes
     state: latest
     update_cache: yes
-  when: ansible_distribution == 'Debian'
   tags:
     - linux-install-docker
 
 
-- name: linux-install-docker - debian - add official repository GPG key
+- name: debian - add official repository GPG key
   apt_key:
     url: '{{ docker_repository_gpg_key_debian }}'
     state: present
-  when: ansible_distribution == 'Debian'
   tags:
     - linux-install-docker
 
 
-- name: linux-install-docker - debian - add apt repository
+- name: debian - add apt repository
   apt_repository:
     repo: '{{ docker_apt_repository_debian }}'
     filename: 'docker'
     state: present
     update_cache: no
-  when: ansible_distribution == 'Debian'
   tags:
     - linux-install-docker
 
 
-- name: linux-install-docker - debian - install docker
+- name: debian - install docker
   apt:
     name: 
       - docker-ce
@@ -45,6 +42,5 @@
       - containerd.io
     state: latest
     update_cache: yes
-  when: ansible_distribution == 'Debian'
   tags:
     - linux-install-docker

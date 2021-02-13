@@ -1,0 +1,60 @@
+# linux-install-zabbix-agent/tasks/ubuntu.yml
+
+---
+- name: ubuntu - libcurl3 install for trusty and xenial
+  apt:
+    name: libcurl3
+    state: present
+  when: ansible_distribution_major_version == '14' or ansible_distribution_major_version == '16'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: ubuntu - libcurl4 install for bionic and focal
+  apt:
+    name: libcurl4
+    state: present
+  when: ansible_distribution_major_version == '18' or ansible_distribution_major_version == '20'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: ubuntu - install repository for trusty
+  apt:
+    deb: "{{ zabbix_repo_ubuntu_trusty }}"
+  when: ansible_distribution_major_version == '14'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: ubuntu - install repository for xenial
+  apt:
+    deb: "{{ zabbix_repo_ubuntu_xenial }}"
+  when: ansible_distribution_major_version == '16'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: ubuntu - install repository for bionic
+  apt:
+    deb: "{{ zabbix_repo_ubuntu_bionic }}"
+  when: ansible_distribution_major_version == '18'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: ubuntu - install repository for focal
+  apt:
+    deb: "{{ zabbix_repo_ubuntu_focal }}"
+  when: ansible_distribution_major_version == '20'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: ubuntu - install zabbix-agent
+  apt:
+    name: zabbix-agent
+    state: latest
+    update_cache: yes
+  tags:
+    - linux-install-zabbix-agent

@@ -1,0 +1,52 @@
+# linux-install-zabbix-agent/tasks/debian.yml
+
+---
+- name: debian - libcurl3 install for jessie or stretch
+  apt:
+    name: libcurl3
+    state: present
+  when: ansible_distribution_major_version == '8' or ansible_distribution_major_version == '9'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: debian - libcurl4 install for buster
+  apt:
+    name: libcurl4
+    state: present
+  when: ansible_distribution_major_version == '10'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: debian - install repository for jessie
+  apt:
+    deb: "{{ zabbix_repo_debian_jessie }}"
+  when: ansible_distribution_major_version == '8'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: debian - install repository for stretch
+  apt:
+    deb: "{{ zabbix_repo_debian_stretch }}"
+  when: ansible_distribution_major_version == '9'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: debian - install repository for buster
+  apt:
+    deb: "{{ zabbix_repo_debian_buster }}"
+  when: ansible_distribution_major_version == '10'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: debian - install zabbix-agent
+  apt:
+    name: zabbix-agent
+    state: latest
+    update_cache: yes
+  tags:
+    - linux-install-zabbix-agent

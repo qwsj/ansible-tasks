@@ -1,0 +1,37 @@
+# linux-install-zabbix-agent/tasks/centos.yml
+
+---
+- name: centos - install repository for 6
+  yum:
+    name: "{{ zabbix_repo_centos_6 }}"
+    state: present
+  when: ansible_distribution_major_version == '6'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: centos - install repository for 7
+  yum:
+    name: "{{ zabbix_repo_centos_7 }}"
+    state: present
+  when: ansible_distribution_major_version == '7'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: centos - install repository for 8
+  yum:
+    name: "{{ zabbix_repo_centos_8 }}"
+    state: present
+  when: ansible_distribution_major_version == '8'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: centos - install zabbix-agent
+  yum:
+    name: zabbix-agent
+    state: latest
+    update_cache: yes
+  tags:
+    - linux-install-zabbix-agent

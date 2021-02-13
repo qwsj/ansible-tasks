@@ -1,7 +1,7 @@
 # roles/linux-install-docker/tasks/ubuntu.yml
 
 ---
-- name: linux-install-docker - ubuntu - install required packages
+- name: ubuntu - install required packages
   apt:
     name:
       - curl
@@ -12,32 +12,29 @@
     force_apt_get: yes
     state: latest
     update_cache: yes
-  when: ansible_distribution == 'Ubuntu'
   tags:
     - linux-install-docker
 
 
-- name: linux-install-docker - ubuntu - add official repository GPG key
+- name: ubuntu - add official repository GPG key
   apt_key:
     url: '{{ docker_repository_gpg_key_ubuntu }}'
     state: present
-  when: ansible_distribution == 'Ubuntu'
   tags:
     - linux-install-docker
 
 
-- name: linux-install-docker - ubuntu - add apt repository
+- name: ubuntu - add apt repository
   apt_repository:
     repo: '{{ docker_apt_repository_ubuntu }}'
     filename: 'docker'
     state: present
     update_cache: no
-  when: ansible_distribution == 'Ubuntu'
   tags:
     - linux-install-docker
 
 
-- name: linux-install-docker - ubuntu - install docker
+- name: ubuntu - install docker
   apt:
     name: 
       - docker-ce
@@ -45,6 +42,5 @@
       - containerd.io
     state: latest
     update_cache: yes
-  when: ansible_distribution == 'Ubuntu'
   tags:
     - linux-install-docker

@@ -1,4 +1,4 @@
-# linux-install-dnsdist/tasks/main.yml
+# linux-install-zabbix-agent/tasks/main.yml
 
 ---
 - name: gather facts
@@ -6,22 +6,22 @@
     gather_subset:
       - '!all'
   tags:
-    - linux-install-dnsdist
+    - linux-install-zabbix-agent
 
 
 - name: including tasks for OS
   include_tasks: '{{ ansible_distribution|lower }}.yml'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS'
   tags:
-    - linux-install-dnsdist
+    - linux-install-zabbix-agent
 
 
-- name: copy dnsdist config
-  copy:
+- name: copy zabbix-agent config
+  template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
   with_items:
-    - { src: 'dnsdist.conf', dest: '/etc/dnsdist/dnsdist.conf' }
-  notify: 'restarted and enabled dnsdist'
+    - { src: 'zabbix_agentd.conf.j2', dest: '/etc/zabbix/zabbix_agentd.conf' }
+  notify: 'restarted and enabled zabbix-agent'
   tags:
-    - linux-install-dnsdist
+    - linux-install-zabbix-agent
