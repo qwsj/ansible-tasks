@@ -1,7 +1,7 @@
 # linux-install-zabbix-agent/tasks/debian.yml
 
 ---
-- name: debian - libcurl3 install for jessie or stretch
+- name: debian - install libcurl3 for jessie or stretch
   apt:
     name: libcurl3
     state: present
@@ -10,7 +10,7 @@
     - linux-install-zabbix-agent
 
 
-- name: debian - libcurl4 install for buster
+- name: debian - install libcurl4 for buster
   apt:
     name: libcurl4
     state: present

@@ -1,7 +1,7 @@
 # linux-install-zabbix-agent/tasks/ubuntu.yml
 
 ---
-- name: ubuntu - libcurl3 install for trusty and xenial
+- name: ubuntu - install libcurl3 for trusty and xenial
   apt:
     name: libcurl3
     state: present
@@ -10,7 +10,7 @@
     - linux-install-zabbix-agent
 
 
-- name: ubuntu - libcurl4 install for bionic and focal
+- name: ubuntu - install libcurl4 for bionic and focal
   apt:
     name: libcurl4
     state: present
