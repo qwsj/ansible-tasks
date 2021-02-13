@@ -1,4 +1,4 @@
-# roles/linux-install-docker/tasks/main.yml
+# linux-install-docker/tasks/main.yml
 
 ---
 - name: gather facts

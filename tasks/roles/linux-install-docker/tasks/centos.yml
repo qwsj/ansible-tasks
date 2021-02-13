@@ -1,4 +1,4 @@
-# roles/linux-install-docker/tasks/centos.yml
+# linux-install-docker/tasks/centos.yml
 
 ---
 - name: centos - add yum repository
