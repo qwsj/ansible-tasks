@@ -38,7 +38,7 @@
     - linux-install-dnsdist
 
 
-- name: stopped and disabled systemd-resolved
+- name: ubuntu - stopped and disabled systemd-resolved
   service:
     name: systemd-resolved
     state: stopped

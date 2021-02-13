@@ -1,0 +1,10 @@
+# linux-install-powerdns/handlers/main.yml
+
+---
+- name: restarted and enabled powerdns
+  service:
+    name: powerdns
+    state: restarted
+    enabled: yes
+  tags:
+    - linux-install-powerdns

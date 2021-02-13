@@ -1,0 +1,40 @@
+# linux-install-powerdns/tasks/main.yml
+
+---
+- name: gather facts
+  setup:
+    gather_subset:
+      - '!all'
+  tags:
+    - linux-install-powerdns
+
+
+- name: including tasks for OS
+  include_tasks: '{{ ansible_distribution|lower }}.yml'
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS'
+  tags:
+    - linux-install-powerdns
+
+
+- name: remove configs
+  file:
+    path: '{{ item }}'
+    state: absent
+  with_items:
+    - '/etc/powerdns/named.conf'
+    - '/etc/powerdns/pdns.d/bind.conf'
+  notify: 'restarted and enabled powerdns'
+  tags:
+    - linux-install-powerdns
+
+
+- name: copy powerdns config
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'pdns.conf', dest: '/etc/powerdns/pdns.conf' }
+    - { src: 'mysql.conf', dest: '/etc/powerdns/pdns.d/mysql.conf' }
+  notify: 'restarted and enabled powerdns'
+  tags:
+    - linux-install-powerdns
