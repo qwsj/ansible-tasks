@@ -8,5 +8,5 @@ docker_apt_repository_ubuntu: 'deb [arch=amd64] https://download.docker.com/linu
 
 docker_yum_repository_centos: 'https://download.docker.com/linux/centos/docker-ce.repo'
 
-docker_compose_version: '1.27.4'
+docker_compose_version: '1.28.2'
 docker_compose_binary: 'https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}'
