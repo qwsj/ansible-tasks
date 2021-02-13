@@ -2,7 +2,7 @@
 
 ---
 - block:
-  - name: acme-cert-create - test whether old certificate files for domains {{ domain }} exist
+  - name: test whether old certificate files for domains {{ domain }} exist
     stat:
       path: "{{ work_directory }}/{{ domain }}"
     register: old_certificate_exists
@@ -11,7 +11,7 @@
     tags:
       - acme-cert-create
 
-  - name: acme-cert-create - move old certificate files for domains {{ domain }}
+  - name: move old certificate files for domains {{ domain }}
     command: mv "{{ work_directory }}/{{ domain }}" "{{ work_directory }}/{{ domain }}-{{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}"
     when: "old_certificate_exists.stat.exists"
     run_once: yes
@@ -20,7 +20,7 @@
       - acme-cert-create
 
 
-- name: acme-cert-create - creating domain certs directory for {{ domain }}
+- name: creating domain certs directory for {{ domain }}
   file:
     dest: "{{ item }}"
     state: directory
@@ -35,7 +35,7 @@
     - acme-cert-create
 
 
-- name: acme-cert-create - creating private key for {{ domain }} (RSA)
+- name: creating private key for {{ domain }} (RSA)
   openssl_privatekey:
     path: "{{ work_directory }}/{{ domain }}/privkey.pem"
     mode: "0600"
@@ -48,7 +48,7 @@
     - acme-cert-create
 
 
-- name: acme-cert-create - creating CSR for {{ domain }}
+- name: creating CSR for {{ domain }}
   openssl_csr:
     path: "{{ csr_directory }}/csr-{{ domain }}.csr"
     privatekey_path: "{{ work_directory }}/{{ domain }}/privkey.pem"
@@ -62,7 +62,7 @@
     - acme-cert-create
 
 
-- name: acme-cert-create - generate account key (RSA)
+- name: generate account key (RSA)
   openssl_privatekey:
     path: "{{ account_key }}"
     type: RSA
@@ -73,7 +73,7 @@
     - acme-cert-create
 
 
-- name: acme-cert-create - create challenge for {{ domain }}
+- name: create challenge for {{ domain }}
   acme_certificate:
     account_key: "{{ account_key }}"
     account_email: "{{ account_email }}"
@@ -95,7 +95,7 @@
 
 - block:
   when: create_challenge is changed
-  - name: acme-cert-create - copy file to webroot for challenge verify
+  - name: copy file to webroot for challenge verify
     copy:
       content: "{{ create_challenge.challenge_data[domain]['http-01']['resource_value'] }}"
       dest: "{{ challenge_directory }}/.well-known/acme-challenge/{{ create_challenge.challenge_data[domain]['http-01']['resource'] | basename }}"
@@ -104,7 +104,7 @@
     tags:
       - acme-cert-create
 
-  - name: acme-cert-create - let the challenge be validated and retrieve the cert for {{ domain }}
+  - name: let the challenge be validated and retrieve the cert for {{ domain }}
     acme_certificate:
       account_key: "{{ account_key }}"
       account_email: "{{ account_email }}"
@@ -123,7 +123,7 @@
       - acme-cert-create
 
 
-- name: acme-cert-create - cleaning up challenge files for {{ domain }}
+- name: cleaning up challenge files for {{ domain }}
   file:
     state: absent
     path: "{{ challenge_directory }}/.well-known/acme-challenge/{{ create_challenge.challenge_data[domain]['http-01']['resource'] | basename }}"

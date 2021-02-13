@@ -1,7 +1,7 @@
 # roles/acme-cert-delete/tasks/main.yml
 
 ---
-- name: acme-cert-delete - deleting domain certs directory for {{ domain }}
+- name: deleting domain certs directory for {{ domain }}
   file:
     dest: "{{ item }}"
     state: absent
