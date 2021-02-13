@@ -1,0 +1,5 @@
+# linux-install-golang/vars/main.yml
+
+golang_version: '1.15.8'
+
+golang_linux_archive: 'https://golang.org/dl/go{{ golang_version }}.linux-amd64.tar.gz'

@@ -1,0 +1,30 @@
+# linux-install-golang/tasks/main.yml
+
+---
+- name: download golang archive
+  get_url:
+    url: '{{ golang_linux_archive }}'
+    dest: '/tmp/golang.tar.gz'
+  register: download_geolite
+  tags:
+    - linux-install-golang
+
+
+- name: unarchive golang archive
+  unarchive:
+    src: '/tmp/golang.tar.gz'
+    dest: '/usr/local'
+    remote_src: yes
+  register: unarchive_geolite
+  when: download_geolite.changed
+  tags:
+    - linux-install-golang
+
+
+- name: set PATH environment
+  lineinfile:
+    dest: '/etc/profile'
+    state: present
+    line: 'PATH=$PATH:/usr/local/go/bin'
+  tags:
+    - linux-install-golang
