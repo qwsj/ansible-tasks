@@ -19,26 +19,9 @@
     - linux-install-zabbix-agent
 
 
-- name: debian - install repository for jessie
+- name: debian - install repository
   apt:
-    deb: "{{ zabbix_repo_debian_jessie }}"
-  when: ansible_distribution_major_version == '8'
-  tags:
-    - linux-install-zabbix-agent
-
-
-- name: debian - install repository for stretch
-  apt:
-    deb: "{{ zabbix_repo_debian_stretch }}"
-  when: ansible_distribution_major_version == '9'
-  tags:
-    - linux-install-zabbix-agent
-
-
-- name: debian - install repository for buster
-  apt:
-    deb: "{{ zabbix_repo_debian_buster }}"
-  when: ansible_distribution_major_version == '10'
+    deb: "{{ zabbix_repo_debian }}"
   tags:
     - linux-install-zabbix-agent
 

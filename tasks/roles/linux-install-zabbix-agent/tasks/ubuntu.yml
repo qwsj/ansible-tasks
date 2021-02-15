@@ -19,34 +19,9 @@
     - linux-install-zabbix-agent
 
 
-- name: ubuntu - install repository for trusty
+- name: ubuntu - install repository
   apt:
-    deb: "{{ zabbix_repo_ubuntu_trusty }}"
-  when: ansible_distribution_major_version == '14'
-  tags:
-    - linux-install-zabbix-agent
-
-
-- name: ubuntu - install repository for xenial
-  apt:
-    deb: "{{ zabbix_repo_ubuntu_xenial }}"
-  when: ansible_distribution_major_version == '16'
-  tags:
-    - linux-install-zabbix-agent
-
-
-- name: ubuntu - install repository for bionic
-  apt:
-    deb: "{{ zabbix_repo_ubuntu_bionic }}"
-  when: ansible_distribution_major_version == '18'
-  tags:
-    - linux-install-zabbix-agent
-
-
-- name: ubuntu - install repository for focal
-  apt:
-    deb: "{{ zabbix_repo_ubuntu_focal }}"
-  when: ansible_distribution_major_version == '20'
+    deb: "{{ zabbix_repo_ubuntu }}"
   tags:
     - linux-install-zabbix-agent
 
