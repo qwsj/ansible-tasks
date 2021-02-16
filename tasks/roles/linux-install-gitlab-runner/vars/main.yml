@@ -1,0 +1,5 @@
+# linux-install-gitlab-runner/vars/main.yml
+
+gitlab_runner_apt_package: 'https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_{{ host_architecture }}.deb'
+
+gitlab_runner_rpm_package: 'https://gitlab-runner-downloads.s3.amazonaws.com/latest/rpm/gitlab-runner_{{ host_architecture }}.rpm'

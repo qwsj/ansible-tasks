@@ -1,0 +1,9 @@
+# linux-install-gitlab-runner/tasks/ubuntu.yml
+
+---
+- name: ubuntu - install gitlab-runner
+  apt:
+    deb: "{{ gitlab_runner_apt_package }}"
+  notify: "restarted and enabled gitlab-runner"
+  tags:
+    - linux-install-gitlab-runner

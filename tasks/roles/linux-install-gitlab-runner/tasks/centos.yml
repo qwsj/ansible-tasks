@@ -1,0 +1,10 @@
+# linux-install-gitlab-runner/tasks/centos.yml
+
+---
+- name: centos - install gitlab-runner
+  yum:
+    name: "{{ gitlab_runner_rpm_package }}"
+    state: present
+  notify: "restarted and enabled gitlab-runner"
+  tags:
+    - linux-install-gitlab-runner

@@ -1,0 +1,48 @@
+# linux-install-gitlab-runner/tasks/main.yml
+
+---
+- name: gather facts
+  setup:
+    gather_subset:
+      - "!all"
+  tags:
+    - linux-install-gitlab-runner
+
+
+- name: checking for x86_64 architecture
+  set_fact:
+    host_architecture: "amd64"
+  when: ansible_architecture == "x86_64"
+  tags:
+    - linux-install-gitlab-runner
+
+
+- name: checking for arm architecture
+  set_fact:
+    host_architecture: "arm"
+  when: ansible_architecture == "arm"
+  tags:
+    - linux-install-gitlab-runner
+
+
+- name: checking for aarch64 architecture
+  set_fact:
+    host_architecture: "arm64"
+  when: ansible_architecture == "aarch64"
+  tags:
+    - linux-install-gitlab-runner
+
+
+- name: checking for arm64 architecture
+  set_fact:
+    host_architecture: "arm64"
+  when: ansible_architecture == "arm64"
+  tags:
+    - linux-install-gitlab-runner
+
+
+- name: including tasks for OS
+  include_tasks: "{{ ansible_distribution|lower }}.yml"
+  when: host_architecture is defined and (ansible_distribution == "Debian" or ansible_distribution == "Ubuntu" or ansible_distribution == "CentOS")
+  tags:
+    - linux-install-gitlab-runner

@@ -1,0 +1,10 @@
+# linux-install-gitlab-runner/handlers/main.yml
+
+---
+- name: restarted and enabled gitlab-runner
+  service:
+    name: gitlab-runner
+    state: restarted
+    enabled: yes
+  tags:
+    - linux-install-gitlab-runner
