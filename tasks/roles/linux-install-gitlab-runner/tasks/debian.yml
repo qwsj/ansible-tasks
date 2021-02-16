@@ -3,7 +3,7 @@
 ---
 - name: debian - install gitlab-runner
   apt:
-    deb: "{{ gitlab_runner_apt_package }}"
-  notify: "restarted and enabled gitlab-runner"
+    deb: '{{ gitlab_runner_apt_package }}'
+  notify: 'restarted and enabled gitlab-runner'
   tags:
     - linux-install-gitlab-runner

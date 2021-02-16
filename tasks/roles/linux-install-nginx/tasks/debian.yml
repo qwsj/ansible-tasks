@@ -39,5 +39,6 @@
       - nginx
     state: latest
     update_cache: yes
+  notify: 'restarted and enabled nginx'
   tags:
     - linux-install-nginx

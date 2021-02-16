@@ -21,7 +21,7 @@
 
 - name: ubuntu - install repository
   apt:
-    deb: "{{ zabbix_repo_ubuntu }}"
+    deb: '{{ zabbix_repo_ubuntu }}'
   tags:
     - linux-install-zabbix-agent
 

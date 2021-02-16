@@ -12,3 +12,4 @@ zabbix_repo_centos: 'https://repo.zabbix.com/zabbix/{{ zabbix_version }}/rhel/{{
 zabbix_log_remote_commands: '0'
 zabbix_enable_remote_commands: '0'
 zabbix_timeout: '10'
+zabbix_server_ip: '127.0.0.1'

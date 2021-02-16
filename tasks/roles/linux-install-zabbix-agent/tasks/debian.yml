@@ -21,7 +21,7 @@
 
 - name: debian - install repository
   apt:
-    deb: "{{ zabbix_repo_debian }}"
+    deb: '{{ zabbix_repo_debian }}'
   tags:
     - linux-install-zabbix-agent
 

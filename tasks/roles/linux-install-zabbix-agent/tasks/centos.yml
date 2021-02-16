@@ -3,7 +3,7 @@
 ---
 - name: centos - install repository
   yum:
-    name: "{{ zabbix_repo_centos }}"
+    name: '{{ zabbix_repo_centos }}'
     state: present
   tags:
     - linux-install-zabbix-agent
