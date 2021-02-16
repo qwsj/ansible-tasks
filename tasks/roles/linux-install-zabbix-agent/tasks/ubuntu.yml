@@ -19,9 +19,18 @@
     - linux-install-zabbix-agent
 
 
-- name: ubuntu - install repository
+- name: ubuntu - install repository (x86_64)
   apt:
     deb: '{{ zabbix_repo_ubuntu }}'
+  when: ansible_architecture == 'x86_64'
+  tags:
+    - linux-install-zabbix-agent
+
+
+- name: ubuntu - install repository (arm64)
+  apt:
+    deb: '{{ zabbix_repo_ubuntu_arm64 }}'
+  when: ansible_architecture == 'arm64' or ansible_architecture == 'aarch64'
   tags:
     - linux-install-zabbix-agent
 
