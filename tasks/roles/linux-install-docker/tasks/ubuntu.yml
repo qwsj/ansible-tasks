@@ -8,7 +8,6 @@
       - gnupg-agent
       - apt-transport-https
       - ca-certificates
-      - software-properties-common
     force_apt_get: yes
     state: latest
     update_cache: yes

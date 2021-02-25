@@ -9,13 +9,16 @@
     - linux-install-docker
 
 
-- name: enable IP forwarding in sysctl
+- name: enable params in sysctl
   sysctl:
-    name: net.ipv4.ip_forward
+    name: '{{ item }}'
+    sysctl_file: '/etc/sysctl.d/99-docker.conf'
     value: '1'
     sysctl_set: yes
     state: present
     reload: yes
+  with_items:
+    - 'net.ipv4.ip_forward'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS'
   tags:
     - linux-install-docker
