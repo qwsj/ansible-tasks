@@ -1,4 +1,4 @@
-# roles/acme-cert-create/tasks/main.yml
+# acme-cert-create/tasks/main.yml
 
 ---
 - block:

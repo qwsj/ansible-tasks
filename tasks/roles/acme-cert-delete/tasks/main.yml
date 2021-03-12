@@ -1,4 +1,4 @@
-# roles/acme-cert-delete/tasks/main.yml
+# acme-cert-delete/tasks/main.yml
 
 ---
 - name: deleting domain certs directory for {{ domain }}

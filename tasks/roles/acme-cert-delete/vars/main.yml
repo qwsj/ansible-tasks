@@ -1,4 +1,4 @@
-# roles/acme-cert-delete/vars/main.yml
+# acme-cert-delete/vars/main.yml
 
 ---
 work_directory: "/etc/letsencrypt/acme"

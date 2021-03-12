@@ -1,4 +1,4 @@
-# roles/acme-cert-upload/tasks/main.yml
+# acme-cert-upload/tasks/main.yml
 
 ---
 - name: upload domain certs directory for {{ domain }}
