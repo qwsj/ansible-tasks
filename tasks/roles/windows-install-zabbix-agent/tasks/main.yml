@@ -1,0 +1,16 @@
+# windows-install-zabbix-agent/tasks/main.yml
+
+---
+- name: gather facts
+  setup:
+    gather_subset:
+      - '!all'
+  tags:
+    - windows-install-zabbix-agent
+
+
+- name: including tasks for OS
+  include_tasks: '{{ ansible_os_family|lower }}.yml'
+  when: ansible_os_family == 'Windows'
+  tags:
+    - windows-install-zabbix-agent

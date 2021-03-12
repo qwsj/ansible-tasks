@@ -1,0 +1,82 @@
+# windows-install-zabbix-agent/tasks/windows.yml
+
+---
+- name: windows - stop zabbix-agent if exist
+  win_service:
+    name: 'Zabbix Agent'
+    state: stopped
+  ignore_errors: yes
+  tags:
+    - windows-install-zabbix-agent
+
+
+- name: windows - create zabbix-agent directory
+  win_file:
+    path: '{{ item.path }}'
+    state: directory
+  with_items:
+    - { path: '{{ zabbix_agent_path }}' }
+  tags:
+    - windows-install-zabbix-agent
+
+
+- name: windows - download zabbix-agent.zip if amd64
+  win_get_url:
+    url: '{{ zabbix_agent_archive_url_amd64 }}'
+    dest: '{{ zabbix_agent_archive_path }}'
+  when: ansible_architecture == '64 bits'
+  tags:
+    - windows-install-zabbix-agent
+
+
+- name: windows - download zabbix-agent.zip if i386
+  win_get_url:
+    url: '{{ zabbix_agent_archive_url_i386 }}'
+    dest: '{{ zabbix_agent_archive_path }}'
+  when: ansible_architecture == '32 bits'
+  tags:
+    - windows-install-zabbix-agent
+
+
+- name: windows - unzip zabbix-agent.zip
+  win_unzip:
+    src: '{{ zabbix_agent_archive_path }}'
+    dest: '{{ zabbix_agent_path }}'
+    delete_archive: yes
+  tags:
+    - windows-install-zabbix-agent
+
+
+- name: windows - copy zabbix-agent config
+  win_template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'zabbix_agentd.win.conf.j2', dest: '{{ zabbix_agent_path }}\conf\zabbix_agentd.win.conf' }
+  tags:
+    - windows-install-zabbix-agent
+
+
+- name: windows - create a new service
+  win_service:
+    name: 'Zabbix Agent'
+    path: '{{ zabbix_agent_path }}\bin\zabbix_agentd.exe --config {{ zabbix_agent_path }}\conf\zabbix_agentd.win.conf'
+    display_name: 'Zabbix Agent'
+    description: 'Provides system monitoring'
+  notify: 'restarted and enabled zabbix-agent'
+  tags:
+    - windows-install-zabbix-agent
+
+
+- name: windows - create firewall rule for zabbix server {{ zabbix_server_ip }}
+  win_firewall_rule:
+    name: 'Zabbix-Agent'
+    localport: 10050
+    action: allow
+    direction: in
+    protocol: tcp
+    remoteip: '{{ zabbix_server_ip }}'
+    state: present
+    enabled: yes
+  tags:
+    - windows-install-zabbix-agent

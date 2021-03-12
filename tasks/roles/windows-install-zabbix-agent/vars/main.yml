@@ -1,0 +1,14 @@
+# windows-install-zabbix-agent/vars/main.yml
+
+---
+zabbix_version: '5.0'
+zabbix_version_patch: '9'
+
+zabbix_agent_archive_url_amd64: 'https://cdn.zabbix.com/zabbix/binaries/stable/{{ zabbix_version }}/{{ zabbix_version }}.{{ zabbix_version_patch }}/zabbix_agent-{{ zabbix_version }}.{{ zabbix_version_patch }}-windows-amd64.zip'
+zabbix_agent_archive_url_i386: 'https://cdn.zabbix.com/zabbix/binaries/stable/{{ zabbix_version }}/{{ zabbix_version }}.{{ zabbix_version_patch }}/zabbix_agent-{{ zabbix_version }}.{{ zabbix_version_patch }}-windows-i386.zip'
+
+zabbix_agent_path: 'C:\Zabbix'
+zabbix_agent_archive_path: '{{ zabbix_agent_path }}\zabbix_agent.zip'
+
+zabbix_timeout: '10'
+zabbix_server_ip: '127.0.0.1'

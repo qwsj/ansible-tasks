@@ -1,0 +1,10 @@
+# windows-install-zabbix-agent/handlers/main.yml
+
+---
+- name: restarted and enabled zabbix-agent
+  win_service:
+    name: 'Zabbix Agent'
+    state: restarted
+    start_mode: 'auto'
+  tags:
+    - windows-install-zabbix-agent
