@@ -1,11 +1,11 @@
 # acme-cert-create/vars/main.yml
 
 ---
-work_directory: "/etc/letsencrypt/acme"
-csr_directory: "{{ work_directory }}/csr/{{ domain }}"
-account_key: "{{ work_directory }}/accounts/account.key"
-challenge_directory: "/var/www"
-account_email: "acme@example.com"
+work_directory: '/etc/letsencrypt/acme'
+csr_directory: '{{ work_directory }}/csr/{{ domain }}'
+account_key: '{{ work_directory }}/accounts/account.key'
+challenge_directory: '/var/www'
+account_email: 'acme@example.com'
 remaining_days: 60
 acme_version: 2
-acme_directory: "https://acme-v02.api.letsencrypt.org/directory"
+acme_directory: 'https://acme-v02.api.letsencrypt.org/directory'
