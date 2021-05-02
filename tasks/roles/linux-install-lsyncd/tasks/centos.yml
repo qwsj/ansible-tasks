@@ -1,0 +1,13 @@
+# linux-install-lsyncd/tasks/centos.yml
+
+---
+- name: centos - install lsyncd
+  yum:
+    name:
+      - rsync
+      - lsyncd
+    state: latest
+    update_cache: yes
+  notify: 'restarted and enabled lsyncd'
+  tags:
+    - linux-install-lsyncd

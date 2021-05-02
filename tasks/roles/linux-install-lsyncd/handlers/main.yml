@@ -1,0 +1,10 @@
+# linux-install-lsyncd/handlers/main.yml
+
+---
+- name: restarted and enabled lsyncd
+  service:
+    name: lsyncd
+    state: restarted
+    enabled: yes
+  tags:
+    - linux-install-lsyncd

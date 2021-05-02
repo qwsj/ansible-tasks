@@ -1,0 +1,13 @@
+# linux-install-lsyncd/tasks/debian.yml
+
+---
+- name: debian - install lsyncd
+  apt:
+    name:
+      - rsync
+      - lsyncd
+    state: latest
+    update_cache: yes
+  notify: 'restarted and enabled lsyncd'
+  tags:
+    - linux-install-lsyncd
