@@ -10,7 +10,7 @@
 
 
 - name: debian - add apt source list
-  teamplate:
+  template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
   with_items:
@@ -29,8 +29,11 @@
 
 - name: debian - install tor
   apt:
-    name: deb.torproject.org-keyring
+    name: '{{ item }}'
     state: latest
     update_cache: yes
+  with_items:
+    - deb.torproject.org-keyring
+    - tor
   tags:
     - linux-install-tor
