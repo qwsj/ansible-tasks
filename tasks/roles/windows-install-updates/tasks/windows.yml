@@ -1,0 +1,14 @@
+# windows-install-updates/tasks/windows.yml
+
+---
+- name: install all security, critical, and rollup updates
+  win_updates:
+    category_names: '{{ item }}'
+    reboot: yes
+    reboot_timeout: 60
+  with_items:
+    - SecurityUpdates
+    - CriticalUpdates
+    - UpdateRollups
+  tags:
+    - windows-install-updates
