@@ -1,0 +1,30 @@
+# windows-install-docker/tasks/windows.yml
+
+--
+- name: checking if docker service is already installed
+  win_service:
+    name: docker
+  register: docker_service_info
+  ignore_errors: yes
+  tags:
+    - windows-install-docker
+
+
+- name: stop old docker service if exist
+  win_service:
+    name: docker
+    state: stopped
+  when: docker_service_info.exists
+  tags:
+    - windows-install-docker
+
+- name: install docker service
+  win_chocolatey:
+    name: '{{ item }}'
+    state: latest
+  with_items:
+    - docker
+    - docker-compose
+  notify: 'restarted and enabled docker'
+  tags:
+    - windows-install-docker
