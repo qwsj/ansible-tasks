@@ -1,0 +1,12 @@
+# windows-install-chocolatey/tasks/windows.yml
+
+---
+- name: install chocolatey
+  win_chocolatey:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - chocolatey
+    - chocolatey-core.extension
+  tags:
+    - windows-install-chocolatey
