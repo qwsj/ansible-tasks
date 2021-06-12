@@ -1,0 +1,10 @@
+# windows-install-docker/handlers/main.yml
+
+---
+- name: restarted and enabled docker
+  win_service:
+    name: 'docker'
+    state: restarted
+    start_mode: 'auto'
+  tags:
+    - windows-install-docker
