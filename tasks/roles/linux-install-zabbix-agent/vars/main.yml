@@ -1,18 +1,25 @@
 # linux-install-zabbix-agent/vars/main.yml
 
-zabbix_version: '5.0'
+zabbix_version_50: '5.0'
+zabbix_version_52: '5.2'
+zabbix_version_54: '5.4'
+
 zabbix_repo_version: '1'
 
-zabbix_repo_debian: 'https://repo.zabbix.com/zabbix/{{ zabbix_version }}/{{ ansible_distribution|lower }}/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version }}-{{ zabbix_repo_version }}+{{ ansible_distribution_release }}_all.deb'
-zabbix_repo_debian_52: 'https://repo.zabbix.com/zabbix/{{ zabbix_version }}/{{ ansible_distribution|lower }}/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version }}-{{ zabbix_repo_version }}+{{ ansible_distribution|lower }}{{ ansible_distribution_major_version }}_all.deb'
+zabbix_repo_debian_50: 'https://repo.zabbix.com/zabbix/{{ zabbix_version_50 }}/{{ ansible_distribution|lower }}/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version_50 }}-{{ zabbix_repo_version }}+{{ ansible_distribution_release }}_all.deb'
+zabbix_repo_debian_52: 'https://repo.zabbix.com/zabbix/{{ zabbix_version_52 }}/{{ ansible_distribution|lower }}/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version_52 }}-{{ zabbix_repo_version }}+{{ ansible_distribution|lower }}{{ ansible_distribution_major_version }}_all.deb'
+zabbix_repo_debian_54: 'https://repo.zabbix.com/zabbix/{{ zabbix_version_54 }}/{{ ansible_distribution|lower }}/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version_54 }}-{{ zabbix_repo_version }}+{{ ansible_distribution|lower }}{{ ansible_distribution_major_version }}_all.deb'
+  
+zabbix_repo_ubuntu_50: 'https://repo.zabbix.com/zabbix/{{ zabbix_version_50 }}/{{ ansible_distribution|lower }}/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version_50 }}-{{ zabbix_repo_version }}+{{ ansible_distribution_release }}_all.deb'
+zabbix_repo_ubuntu_arm64_50: 'https://repo.zabbix.com/zabbix/{{ zabbix_version_50 }}/{{ ansible_distribution|lower }}-arm64/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version_50 }}-{{ zabbix_repo_version }}+{{ ansible_distribution|lower }}{{ ansible_distribution_version }}_all.deb'
+zabbix_repo_ubuntu_52: 'https://repo.zabbix.com/zabbix/{{ zabbix_version_52 }}/{{ ansible_distribution|lower }}/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version_52 }}-{{ zabbix_repo_version }}+{{ ansible_distribution|lower }}{{ ansible_distribution_version }}_all.deb'
+zabbix_repo_ubuntu_arm64_52: 'https://repo.zabbix.com/zabbix/{{ zabbix_version_52 }}/{{ ansible_distribution|lower }}-arm64/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version_52 }}-{{ zabbix_repo_version }}+{{ ansible_distribution|lower }}{{ ansible_distribution_version }}_all.deb'
+zabbix_repo_ubuntu_54: 'https://repo.zabbix.com/zabbix/{{ zabbix_version_54 }}/{{ ansible_distribution|lower }}/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version_54 }}-{{ zabbix_repo_version }}+{{ ansible_distribution|lower }}{{ ansible_distribution_version }}_all.deb'
+zabbix_repo_ubuntu_arm64_54: 'https://repo.zabbix.com/zabbix/{{ zabbix_version_54 }}/{{ ansible_distribution|lower }}-arm64/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version_54 }}-{{ zabbix_repo_version }}+{{ ansible_distribution|lower }}{{ ansible_distribution_version }}_all.deb'
 
-zabbix_repo_ubuntu: 'https://repo.zabbix.com/zabbix/{{ zabbix_version }}/{{ ansible_distribution|lower }}/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version }}-{{ zabbix_repo_version }}+{{ ansible_distribution_release }}_all.deb'
-zabbix_repo_ubuntu_arm64: 'https://repo.zabbix.com/zabbix/{{ zabbix_version }}/{{ ansible_distribution|lower }}-arm64/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version }}-{{ zabbix_repo_version }}+{{ ansible_distribution|lower }}{{ ansible_distribution_version }}_all.deb'
-zabbix_repo_ubuntu_52: 'https://repo.zabbix.com/zabbix/{{ zabbix_version }}/{{ ansible_distribution|lower }}/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version }}-{{ zabbix_repo_version }}+{{ ansible_distribution|lower }}{{ ansible_distribution_version }}_all.deb'
-zabbix_repo_ubuntu_arm64_52: 'https://repo.zabbix.com/zabbix/{{ zabbix_version }}/{{ ansible_distribution|lower }}-arm64/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version }}-{{ zabbix_repo_version }}+{{ ansible_distribution|lower }}{{ ansible_distribution_version }}_all.deb'
-
-zabbix_repo_centos: 'https://repo.zabbix.com/zabbix/{{ zabbix_version }}/rhel/{{ ansible_distribution_major_version }}/x86_64/zabbix-release-{{ zabbix_version }}-{{ zabbix_repo_version }}.el{{ ansible_distribution_major_version }}.noarch.rpm'
-zabbix_repo_centos_52: 'https://repo.zabbix.com/zabbix/{{ zabbix_version }}/rhel/{{ ansible_distribution_major_version }}/x86_64/zabbix-release-{{ zabbix_version }}-{{ zabbix_repo_version }}.el{{ ansible_distribution_major_version }}.noarch.rpm'
+zabbix_repo_centos_50: 'https://repo.zabbix.com/zabbix/{{ zabbix_version_50 }}/rhel/{{ ansible_distribution_major_version }}/x86_64/zabbix-release-{{ zabbix_version_50 }}-{{ zabbix_repo_version }}.el{{ ansible_distribution_major_version }}.noarch.rpm'
+zabbix_repo_centos_52: 'https://repo.zabbix.com/zabbix/{{ zabbix_version_52 }}/rhel/{{ ansible_distribution_major_version }}/x86_64/zabbix-release-{{ zabbix_version_52 }}-{{ zabbix_repo_version }}.el{{ ansible_distribution_major_version }}.noarch.rpm'
+zabbix_repo_centos_54: 'https://repo.zabbix.com/zabbix/{{ zabbix_version_54 }}/rhel/{{ ansible_distribution_major_version }}/x86_64/zabbix-release-{{ zabbix_version_54 }}-{{ zabbix_repo_version }}.el{{ ansible_distribution_major_version }}.noarch.rpm'
 
 zabbix_log_remote_commands: '0'
 zabbix_enable_remote_commands: '0'

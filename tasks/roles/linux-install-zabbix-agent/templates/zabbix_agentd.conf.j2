@@ -72,7 +72,7 @@ LogFileSize=0
 # Default:
 # EnableRemoteCommands=0
 # EnableRemoteCommands={{ zabbix_enable_remote_commands }}
-AllowKey=system.run[*]
+{% if zabbix_enable_remote_commands == 0 %}#{% endif %} AllowKey=system.run[*]
 
 ### Option: LogRemoteCommands
 #	Enable logging of executed shell commands as warnings.
@@ -82,7 +82,7 @@ AllowKey=system.run[*]
 # Mandatory: no
 # Default:
 # LogRemoteCommands=0
-LogRemoteCommands={{ zabbix_log_remote_commands }}
+{% if zabbix_log_remote_commands == 0 %}#{% endif %} LogRemoteCommands={{ zabbix_log_remote_commands }}
 
 ##### Passive checks related
 
@@ -139,7 +139,7 @@ Server={{ zabbix_server_ip }}
 # Default:
 # ServerActive=
 
-# ServerActive=127.0.0.1
+# ServerActive={{ zabbix_server_ip }}
 
 ### Option: Hostname
 #	Unique, case sensitive hostname.
