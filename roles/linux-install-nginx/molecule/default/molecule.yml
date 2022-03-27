@@ -1,0 +1,14 @@
+---
+driver:
+  name: docker
+platforms:
+  - name: debian
+    image: debian:10
+  - name: ubuntu
+    image: ubuntu:20.04
+  - name: centos
+    image: centos:7
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

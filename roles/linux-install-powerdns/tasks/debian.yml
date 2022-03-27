@@ -1,0 +1,47 @@
+# linux-install-powerdns/tasks/debian.yml
+
+---
+- name: debian - install gnupg
+  apt:
+    name: gnupg2
+    state: latest
+    update_cache: yes
+  tags:
+    - linux-install-powerdns
+
+
+- name: debian - add apt repository
+  apt_repository:
+    repo: '{{ powerdns_apt_repository_debian }}'
+    filename: 'powerdns'
+    state: present
+    update_cache: no
+  tags:
+    - linux-install-powerdns
+
+
+- name: debian - copy preferences apt files
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'apt_pdns.preferences', dest: '/etc/apt/preferences.d/powerdns' }
+  tags:
+    - linux-install-powerdns
+
+
+- name: debian - add official repository key
+  apt_key:
+    url: '{{ powerdns_repository_gpg_key_debian_ubuntu }}'
+    state: present
+  tags:
+    - linux-install-powerdns
+
+
+- name: debian - install powerdns
+  apt:
+    name: pdns-server
+    state: latest
+    update_cache: yes
+  tags:
+    - linux-install-powerdns

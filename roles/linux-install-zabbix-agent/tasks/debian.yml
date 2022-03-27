@@ -1,0 +1,39 @@
+# linux-install-tor/tasks/debian.yml
+
+---
+- name: debian - install apt-transport-https
+  apt:
+    name: apt-transport-https
+    state: present
+  tags:
+    - linux-install-tor
+
+
+- name: debian - add apt source list
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'torproject.list.j2', dest: '/etc/apt/sources.list.d/torproject.list' }
+  tags:
+    - linux-install-tor
+
+
+- name: debian - add official repository key
+  apt_key:
+    url: '{{ torproject_repository_gpg_key_debian_ubuntu }}'
+    state: present
+  tags:
+    - linux-install-tor
+
+
+- name: debian - install tor
+  apt:
+    name: '{{ item }}'
+    state: latest
+    update_cache: yes
+  with_items:
+    - deb.torproject.org-keyring
+    - tor
+  tags:
+    - linux-install-tor
