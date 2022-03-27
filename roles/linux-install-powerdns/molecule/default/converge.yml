@@ -3,4 +3,4 @@
   hosts: all
   become: true
   roles:
-    - role: linux-install-dnsdist
+    - role: linux-install-powerdns
