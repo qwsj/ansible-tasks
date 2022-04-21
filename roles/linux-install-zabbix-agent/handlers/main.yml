@@ -1,1 +1,10 @@
-# linux-install-tor/handlers/main.yml
+# linux-install-zabbix-agent/handlers/main.yml
+
+ ---
+ - name: restarted and enabled zabbix-agent
+   service:
+     name: zabbix-agent
+     state: restarted
+     enabled: yes
+   tags:
+     - linux-install-zabbix-agent/

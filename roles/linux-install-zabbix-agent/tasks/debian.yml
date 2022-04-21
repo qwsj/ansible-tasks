@@ -1,39 +1,35 @@
-# linux-install-tor/tasks/debian.yml
+# linux-install-zabbix-agent/tasks/debian.yml
 
----
-- name: debian - install apt-transport-https
-  apt:
-    name: apt-transport-https
-    state: present
-  tags:
-    - linux-install-tor
-
-
-- name: debian - add apt source list
-  template:
-    src: '{{ item.src }}'
-    dest: '{{ item.dest }}'
-  with_items:
-    - { src: 'torproject.list.j2', dest: '/etc/apt/sources.list.d/torproject.list' }
-  tags:
-    - linux-install-tor
+ ---
+ - name: debian - install libcurl3 for jessie or stretch
+   apt:
+     name: libcurl3
+     state: present
+   when: ansible_distribution_major_version == '8' or ansible_distribution_major_version == '9'
+   tags:
+     - linux-install-zabbix-agent
 
 
-- name: debian - add official repository key
-  apt_key:
-    url: '{{ torproject_repository_gpg_key_debian_ubuntu }}'
-    state: present
-  tags:
-    - linux-install-tor
+ - name: debian - install libcurl4 for buster
+   apt:
+     name: libcurl4
+     state: present
+   when: ansible_distribution_major_version == '10'
+   tags:
+     - linux-install-zabbix-agent
 
 
-- name: debian - install tor
-  apt:
-    name: '{{ item }}'
-    state: latest
-    update_cache: yes
-  with_items:
-    - deb.torproject.org-keyring
-    - tor
-  tags:
-    - linux-install-tor
+ - name: debian - install repository
+   apt:
+     deb: '{{ zabbix_repo_debian_54 }}'
+   tags:
+     - linux-install-zabbix-agent
+
+
+ - name: debian - install zabbix-agent
+   apt:
+     name: zabbix-agent
+     state: latest
+     update_cache: yes
+   tags:
+     - linux-install-zabbix-agent

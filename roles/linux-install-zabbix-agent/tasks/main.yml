@@ -1,16 +1,27 @@
-# linux-install-tor/tasks/main.yml
+# linux-install-zabbix-agent/tasks/main.yml
 
----
-- name: gather facts
-  setup:
-    gather_subset:
-      - '!all'
-  tags:
-    - linux-install-tor
+ ---
+ - name: gather facts
+   setup:
+     gather_subset:
+       - '!all'
+   tags:
+     - linux-install-zabbix-agent
 
 
-- name: including tasks for OS
-  include_tasks: '{{ ansible_distribution|lower }}.yml'
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-  tags:
-    - linux-install-tor
+ - name: including tasks for OS
+   include_tasks: '{{ ansible_distribution|lower }}.yml'
+   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS'
+   tags:
+     - linux-install-zabbix-agent
+
+
+ - name: copy zabbix-agent config
+   template:
+     src: '{{ item.src }}'
+     dest: '{{ item.dest }}'
+   with_items:
+     - { src: 'zabbix_agentd.conf.j2', dest: '/etc/zabbix/zabbix_agentd.conf' }
+   notify: 'restarted and enabled zabbix-agent'
+   tags:
+     - linux-install-zabbix-agent
